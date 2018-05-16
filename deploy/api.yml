@@ -12,11 +12,11 @@ Parameters:
     Description: The ARN of the map lambda
 
 Outputs:
-  UsurperContentAPIID:
-    Value: !Ref UsurperContentAPI
+  MapQueryAPIID:
+    Value: !Ref MapQueryAPI
 
 Resources:
-  UsurperContentAPI:
+  MapQueryAPI:
     Type: AWS::ApiGateway::RestApi
     Properties:
       Description: Contentful Map Query
@@ -104,5 +104,5 @@ Resources:
   GatewayStage:
     Type: AWS::ApiGateway::Deployment
     Properties:
-      RestApiId: !Ref UsurperContentAPI
+      RestApiId: !Ref MapQueryAPI
       StageName: !Ref StageName

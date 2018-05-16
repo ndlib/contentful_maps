@@ -23,7 +23,7 @@ Stacks:
         DirectEndpoint: ${DIRECT_ENDPOINT}
         Version: ${GIT_VERSION}
       Gateways:
-        - UsurperContentAPIID
+        - MapQueryAPI
 
 Artifacts:
   Templates:
