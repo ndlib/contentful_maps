@@ -1,0 +1,53 @@
+Service: contentfulmaps
+
+PreDeploy: preDeploy.py
+
+Stacks:
+  Global:
+    Tags:
+      Name: $SERVICE-$STAGE
+      Owner: WSE
+      Contact: web-and-software-engineering-group@nd.edu
+      InceptDate: $TIMESTAMP
+  Single:
+    - Name: $SERVICE-$STAGE
+      Template: root.yml
+      Tags:
+        Description: Usurper Contentful Data API
+      Parameters:
+        StageName: $STAGE
+        ServiceName: $SERVICE
+        ServiceStage: $SERVICE-$STAGE
+        TemplateBucket: $DEPLOY_BUCKET
+        TemplateFolder: $DEPLOY_FOLDER
+        DirectEndpoint: ${DIRECT_ENDPOINT}
+        Version: ${GIT_VERSION}
+      Gateways:
+        - UsurperContentAPIID
+
+Artifacts:
+  Templates:
+    - root.yml
+    - api.yml
+    - lambdas.yml
+
+  Zips:
+    - Name: src
+      Files:
+        - ../src
+
+LambdaEnv:
+  Global:
+    KMSKey: alias/wse/kms/
+  Single:
+    - FunctionName: $SERVICE-$STAGE-mapquery
+      Environment:
+        -
+          Name: CONTENTFUL_DELIVERY_TOKEN
+          Value: ${CONTENTFUL_DELIVERY_TOKEN}
+        -
+          Name: CONTENTFUL_PREVIEW_TOKEN
+          Value: ${CONTENTFUL_PREVIEW_TOKEN}
+        -
+          Name: CONTENTFUL_SPACE
+          Value: ${CONTENTFUL_SPACE}

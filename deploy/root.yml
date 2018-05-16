@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Query contentful for map slugs"
+
+Parameters:
+  StageName:
+    Type: String
+    Description: The name of the stage
+  ServiceName:
+    Type: String
+    Description: The name of the service
+  ServiceStage:
+    Type: String
+    Description: The name of the service-stage
+  DirectEndpoint:
+    Type: String
+    Description: The url to the contentful query api
+  TemplateBucket:
+    Type: String
+    Description: Bucket this (and code) is deployed in
+  TemplateFolder:
+    Type: String
+    Description: Location of template files
+  Version:
+    Type: String
+    Description: Git tag of this deployment
+
+Outputs:
+  UsurperContentAPIID:
+    Value: !GetAtt APIStack.Outputs.UsurperContentAPIID
+
+Resources:
+  LambdasStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL:
+        Fn::Sub: https://s3.amazonaws.com/${TemplateBucket}/${TemplateFolder}/lambdas.yml
+      Parameters:
+        Version: !Ref Version
+        ServiceStage: !Ref ServiceStage
+        RoleARN: !ImportValue LambdaServiceRole
+        CodeBucket: !Ref TemplateBucket
+        CodePath: !Ref TemplateFolder
+        DirectEndpoint: !Ref DirectEndpoint
+
+  APIStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: LambdasStack
+    Properties:
+      TemplateURL:
+        Fn::Sub: https://s3.amazonaws.com/${TemplateBucket}/${TemplateFolder}/api.yml
+      Parameters:
+        StageName: !Ref StageName
+        ServiceStage: !Ref ServiceStage
+        MapLambda: !GetAtt LambdasStack.Outputs.MapArn
