@@ -1,0 +1,108 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  ServiceStage:
+    Type: String
+    Description: The name of the service-stage
+  StageName:
+    Type: String
+    Description: The name of the stage
+  MapLambda:
+    Type: String
+    Description: The ARN of the map lambda
+
+Outputs:
+  MapQueryAPIID:
+    Value: !Ref MapQueryAPI
+
+Resources:
+  MapQueryAPI:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Description: Contentful Map Query
+      Body:
+        swagger: '2.0'
+        info:
+          title: !Ref ServiceStage
+          description: Contentful Map Query
+          version: 1.0.0
+          contact:
+            name: Web and Software Engineering
+            email: web-and-software-engineering-group@nd.edu
+        schemes:
+        - 'https'
+        paths:
+          /map:
+            options:
+              consumes:
+              - "application/json"
+              produces:
+              - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Credentials:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Credentials: "'false'"
+                      method.response.header.Access-Control-Allow-Methods: "'OPTIONS,GET'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestTemplates:
+                  application/json: "{statusCode:200}"
+                passthroughBehavior: "when_no_match"
+                type: "mock"
+            get:
+              consumes:
+              - "application/json"
+              produces:
+              - "application/json"
+              parameters:
+              - name: "collection"
+                in: "query"
+                required: true
+                type: "string"
+                description: "The collection in which the item belongs."
+              - name: "sublibrary"
+                in: "query"
+                required: true
+                type: "string"
+                description: "The sublibrary where the item is located."
+              - name: "call_number"
+                in: "query"
+                required: true
+                type: "string"
+                description: "The call number for the item."
+              responses:
+                '200':
+                  description: ''
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+              x-amazon-apigateway-request-validator: "params-only"
+              x-amazon-apigateway-integration:
+                passthroughBehavior: 'when_no_match'
+                httpMethod: 'POST'
+                type: 'aws_proxy'
+                uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MapLambda}/invocations'
+
+  GatewayStage:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId: !Ref MapQueryAPI
+      StageName: !Ref StageName
