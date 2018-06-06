@@ -46,7 +46,7 @@ def handler(event, context):
   collectionLibrary = collection + '-' + sublibrary
 
   query = urllib.quote("content_type=collectionCallRanges&fields.collectionSublibrary=%s" % collectionLibrary)
-  url = hesutil.getEnv("DIRECT_ENDPOINT") + '/entry/query?query=' + query
+  url = hesutil.getEnv("DIRECT_ENDPOINT") + '/query?query=' + query
 
   req = urllib2.Request(url)
   try:

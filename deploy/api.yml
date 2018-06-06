@@ -12,7 +12,7 @@ Parameters:
     Description: The ARN of the map lambda
 
 Outputs:
-  MapQueryAPIID:
+  MapQueryAPI:
     Value: !Ref MapQueryAPI
 
 Resources:
