@@ -36,7 +36,12 @@ def handler(event, context):
 
   collection = params.get('collection')
   sublibrary = params.get('sublibrary')
-  call_number = callnumber.normalize(params.get('call_number'))
+  # Use Dewey for Holy Cross, LC for all other sublibraries DLTP-1422
+  if sublibrary == "HCC":
+  	call_number = callnumber.dewey_normalize(params.get('call_number'))
+  else:
+  	call_number = callnumber.normalize(params.get('call_number'))
+
 
   collectionLibrary = collection + '-' + sublibrary
 

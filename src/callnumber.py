@@ -44,6 +44,15 @@ lccn_re = re.compile(r'''^
         \s*$
         ''', re.VERBOSE)
 
+def dewey_normalize(call_number):
+   # remove Cutter Code and anything else following classification number
+   # Use only first 3 digits
+   number_prefix = call_number.split(' ')[0]
+   dewey_number = number_prefix.split('.')[0]
+   if not dewey_number.isdigit():
+        return None
+   # Contentful call_range field wants 9 characters- start with 'D ' and right justify the rest
+   return 'D {:07d}'.format(int(dewey_number))
 
 def normalize(lc, bottom=False):
     lc = lc.upper()
