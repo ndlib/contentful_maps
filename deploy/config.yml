@@ -16,7 +16,7 @@ Stacks:
         Description: Usurper Contentful Data API
       Parameters:
         StageName: $STAGE
-        ServiceName: $SERVICE
+        ServiceName: $SERVICE-$STAGE
         ServiceStage: $SERVICE-$STAGE
         TemplateBucket: $DEPLOY_BUCKET
         TemplateFolder: $DEPLOY_FOLDER

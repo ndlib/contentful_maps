@@ -10,6 +10,6 @@ def gitVersion(stage):
 
 
 def run(stage):
-  scriptutil.executeCommand('cd ../src && pip install -r requirements.txt --target . --no-deps')
+  scriptutil.executeCommand('cd .. && ./setup.sh')
 
   return { "env": { "GIT_VERSION": gitVersion(stage) } }

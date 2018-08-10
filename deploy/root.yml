@@ -28,6 +28,12 @@ Outputs:
   MapQueryAPI:
     Value: !GetAtt APIStack.Outputs.MapQueryAPI
 
+  RootUrl:
+    Value: !GetAtt APIStack.Outputs.RootUrl
+    Export:
+      Name:
+        !Sub ${ServiceName}-api-url
+
 Resources:
   LambdasStack:
     Type: AWS::CloudFormation::Stack
