@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: "Query contentful for map slugs"
 
 Parameters:
-  StageName:
+  Stage:
     Type: String
     Description: The name of the stage
   ServiceName:
@@ -11,9 +11,6 @@ Parameters:
   ServiceStage:
     Type: String
     Description: The name of the service-stage
-  DirectEndpoint:
-    Type: String
-    Description: The url to the contentful query api
   TemplateBucket:
     Type: String
     Description: Bucket this (and code) is deployed in
@@ -46,7 +43,9 @@ Resources:
         RoleARN: !ImportValue LambdaServiceRole
         CodeBucket: !Ref TemplateBucket
         CodePath: !Ref TemplateFolder
-        DirectEndpoint: !Ref DirectEndpoint
+        DirectEndpoint:
+          Fn::ImportValue:
+            !Sub "contentfuldirect-${Stage}-api-url"
 
   APIStack:
     Type: AWS::CloudFormation::Stack
@@ -55,6 +54,6 @@ Resources:
       TemplateURL:
         Fn::Sub: https://s3.amazonaws.com/${TemplateBucket}/${TemplateFolder}/api.yml
       Parameters:
-        StageName: !Ref StageName
+        StageName: !Ref Stage
         ServiceStage: !Ref ServiceStage
         MapLambda: !GetAtt LambdasStack.Outputs.MapArn

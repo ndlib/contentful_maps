@@ -15,12 +15,11 @@ Stacks:
       Tags:
         Description: Usurper Contentful Data API
       Parameters:
-        StageName: $STAGE
+        Stage: $STAGE
         ServiceName: $SERVICE-$STAGE
         ServiceStage: $SERVICE-$STAGE
         TemplateBucket: $DEPLOY_BUCKET
         TemplateFolder: $DEPLOY_FOLDER
-        DirectEndpoint: ${DIRECT_ENDPOINT}
         Version: ${GIT_VERSION}
       Gateways:
         - MapQueryAPI
