@@ -12,6 +12,8 @@ noQueryParams = { "statusCode": 422, "body": "No Query Parameters Provided." }
 mapNotFound = { "statusCode": 404, "body": "Map not Found." }
 apierror = { "statusCode": 500, "body": "API ERROR" }
 
+heslog.setHubContext(id='contentful_maps')
+
 def addHeaders(obj):
   obj["headers"] = obj.get("headers", {})
   obj["headers"]["x-nd-version"] = hesutil.getEnv("VERSION")
