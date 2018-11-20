@@ -65,7 +65,7 @@ def handler(event, context):
   # Search for a Map slug, given collection, sublibrary, call_number
   # The key 'collection-library' returns a list of call number ranges,
   # which we search.
-  slugs = filter(lambda x: x['rangeStart'] <= call_number and x['rangeEnd'] >= call_number, callmap)
+  slugs = filter(lambda x: ('rangeStart' not in x or not x['rangeStart'] or x['rangeStart'] <= call_number) and ('rangeEnd' not in x or not x['rangeEnd'] or x['rangeEnd'] >= call_number), callmap)
 
   if len(slugs) > 0:
     return addHeaders({ "statusCode": 200, "body": json.dumps({ "slug": slugs[0]['floorSlug']}) })

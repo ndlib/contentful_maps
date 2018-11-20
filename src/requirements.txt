@@ -1,1 +1,1 @@
-hesburgh-utilities
+hesburgh-utilities==1.0.9
