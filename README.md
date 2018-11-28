@@ -10,9 +10,7 @@ Endpoint to query map information from contentful
 - [hesdeploy](https://github.com/ndlib/hesburgh_utilities/blob/master/scripts/HESDEPLOY.md) (pip install hesdeploy)
 - Access to corpfs
 - AWS Credentials
-- !!An instance of ContentfulDirect!!
 
 ### To deploy
-1. Source `.../Departmental/Infrastructure/vars/WSE/secret_[stage]/gatekeeper/serverless-env` before deploying.
-2. Ensure that the sourced variable DIRECT_ENDPOINT points at the contentful direct endpoint you wish to deploy to.
-3. Assume appropriate AWS role and run `hesdeploy`
+1. Source `.../Departmental/Infrastructure/vars/WSE/secret_[stage]/contentful_maps/deploy-env` before deploying.
+2. Assume appropriate AWS role and run `hesdeploy` (e.g. `aws-vault exec [role] -- hesdeploy -s [stage] --update`)
