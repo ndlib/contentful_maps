@@ -69,9 +69,6 @@ def normalize(lc, bottom=False):
     (alpha, num, dec, c1alpha, c1num,
      c2alpha, c2num, c3alpha, c3num, extra) = origs
 
-    if (len(dec) > 2):
-        return None
-
     if alpha and not (num or dec or c1alpha or c1num or c2alpha \
                           or c2num or c3alpha or c3num):
         if extra:
