@@ -114,8 +114,20 @@ Resources:
                 type: 'aws_proxy'
                 uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MapLambda}/invocations'
 
-  GatewayStage:
+  APIGatewayDeployment:
     Type: AWS::ApiGateway::Deployment
     Properties:
       RestApiId: !Ref MapQueryAPI
+
+  APIGatewayStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      RestApiId: !Ref MapQueryAPI
+      DeploymentId: !Ref APIGatewayDeployment
       StageName: !Ref StageName
+      MethodSettings:
+        - DataTraceEnabled: false
+          HttpMethod: "*"
+          LoggingLevel: ERROR
+          ResourcePath: "/*"
+          MetricsEnabled: true
