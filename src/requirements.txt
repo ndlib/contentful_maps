@@ -1,2 +1,0 @@
-hesburgh-utilities==1.0.9
-sentry-sdk
