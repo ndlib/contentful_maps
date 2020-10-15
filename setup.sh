@@ -1,1 +1,3 @@
-cd ./src && pip install -r requirements.txt --target . --no-deps
+yarn
+
+cd ./src && yarn

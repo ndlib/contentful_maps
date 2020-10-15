@@ -52,7 +52,7 @@ Resources:
       FunctionName: !Sub ${ServiceStage}-mapquery
       Handler: src/main.handler
       Role: !Ref RoleARN
-      Runtime: python2.7
+      Runtime: nodejs12.x
       Timeout: !Ref MapTimeout
       MemorySize: !Ref MapMemorySize
       Environment:
