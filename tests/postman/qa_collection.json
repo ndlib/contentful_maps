@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "c1092c2d-d520-45de-9c75-ee64c031e079",
+		"name": "Contentful Maps - QA",
+		"description": "# Contentful Maps\n\nThis collection will run basic smoke tests to ensure that the API is running as expected.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test Map Not Found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "16151cb6-166d-4cba-a71f-284c52c1aaf8",
+						"exec": [
+							"// Load the HTML into cheerio, which will let us easily select attributes for testing.",
+							"const $ = cheerio.load(pm.response.text());",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Response time is less than 5000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{contentfulMapsApiUrl}}/map?sublibrary=test&call_number=test&collection=test",
+					"host": [
+						"{{contentfulMapsApiUrl}}"
+					],
+					"path": [
+						"map"
+					],
+					"query": [
+						{
+							"key": "sublibrary",
+							"value": "test"
+						},
+						{
+							"key": "call_number",
+							"value": "test"
+						},
+						{
+							"key": "collection",
+							"value": "test"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8ec4856b-1d7f-44a3-a117-be8e532e059c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "128167d6-1920-474a-9a08-d5864ec1af53",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "8dafb662-110c-42f8-9efa-47f265dd62ee",
+			"key": "contentfulMapsApiUrl",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}
